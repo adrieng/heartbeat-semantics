@@ -6,13 +6,16 @@ DOTS= \
 	test.1.eager.dot \
 	test.2.amo-outermost.dot \
 	test.3.amo-innermost.dot \
-	test.4.amo-middle.dot
+	test.4.amo-middle.dot \
+	test.5.tresh-outermost.dot \
+	test.6.tresh-innermost.dot \
+	test.7.tresh-middle.dot
 PNGS=$(DOTS:.dot=.png)
 
 .PHONY: all realclean images clean view fake
 .PREVIOUS: $(DOTS)
 
-all: $(TARGET) $(PNGS)
+all: $(TARGET)
 
 images: $(PNGS)
 

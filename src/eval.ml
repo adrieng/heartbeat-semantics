@@ -298,23 +298,29 @@ let fparl_count k =
   let open List in
   length @@ filter (fun f -> match f with Fparl _ -> true | _ -> false) k
 
-let select_amo_outermost ~overhead ~credits ~current =
+let select_treshold_choice ~choice ~treshold ~overhead ~credits ~current =
   let count = fparl_count current in
-  if credits >= overhead && count > 0
-  then Some (extract_nth_fparl (count - 1) current)
+  if credits >= treshold && count > 0
+  then Some (extract_nth_fparl (choice count) current)
   else None
 
-let select_amo_innermost ~overhead ~credits ~current =
-  let count = fparl_count current in
-  if credits >= overhead && count > 0
-  then Some (extract_nth_fparl 0 current)
-  else None
+let select_treshold_outermost =
+  select_treshold_choice ~choice:(fun count -> count - 1)
 
-let select_amo_middle ~overhead ~credits ~current =
-  let count = fparl_count current in
-  if credits >= overhead && count > 0
-  then Some (extract_nth_fparl (count / 2) current)
-  else None
+let select_treshold_innermost =
+  select_treshold_choice ~choice:(fun _ -> 0)
+
+let select_treshold_middle =
+  select_treshold_choice ~choice:(fun count -> count / 2)
+
+let select_amortized_outermost ~overhead =
+  select_treshold_outermost ~treshold:overhead ~overhead
+
+let select_amortized_innermost ~overhead =
+  select_treshold_innermost ~treshold:overhead ~overhead
+
+let select_amortized_middle ~overhead =
+  select_treshold_middle ~treshold:overhead ~overhead
 
 let eval ?(observer = fun _ -> ()) ~selector ~overhead st =
   let rec loop credits st =

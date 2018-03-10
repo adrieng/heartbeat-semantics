@@ -57,11 +57,19 @@ val select_none : selector
 
 val select_eager : selector
 
-val select_amo_outermost : selector
+val select_treshold_choice : choice:(int -> int) -> treshold:int -> selector
 
-val select_amo_innermost : selector
+val select_treshold_outermost : treshold:int -> selector
 
-val select_amo_middle : selector
+val select_treshold_innermost : treshold:int -> selector
+
+val select_treshold_middle : treshold:int -> selector
+
+val select_amortized_outermost : selector
+
+val select_amortized_innermost : selector
+
+val select_amortized_middle : selector
 
 val eval : ?observer:observer ->
            selector:selector ->
